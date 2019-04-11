@@ -50,9 +50,13 @@ Please follow train.py and test.py -h instructions for more detail.
 * Matplotlib
 * Visdom
 
-## Licenses
+## Acknowledgements
+
+The architecture of this repository is inspired from: 
+
+https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
 
 
-#### Third-party
+#### Third-party licenses
 
 [pytorchviz](https://github.com/szagoruyko/pytorchviz/blob/master/LICENSE)
