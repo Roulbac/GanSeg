@@ -49,7 +49,7 @@ class LabVolSliceDataset(Dataset):
             rootdir_img, self.slice_type, use_vols=True)
         if not self.no_labels:
             rootdir_lab = os.path.join(self.rootdir, 'Labels')
-            self.dataset_lab = VolSliceDataset(rootdir_lab, self.slice_type)
+            self.dataset_lab = VolSliceDataset(rootdir_lab, self.slice_type, use_vols=True)
             assert set(self.dataset_lab.vol_paths) == set(
                 self.dataset_img.vol_paths)
             self.dataset_lab.vol_paths = self.dataset_img.vol_paths
@@ -156,7 +156,11 @@ class LabVolSliceDataset(Dataset):
         vol = sitk.ReadImage(src_path)
         direction, spacing, origin = vol.GetDirection(), vol.GetSpacing(), vol.GetOrigin()
         del vol
-        processed_vol = slices_to_vol(self[idx], direction,
+        if self.no_labels:
+            slices, label = self[idx], None
+        else:
+            slices, label = self[idx]
+        processed_vol = slices_to_vol(slices, direction,
                                       spacing, origin,
                                       self.slice_type, functor)
         relpath = os.path.relpath(src_path, os.path.dirname(self.rootdir))
